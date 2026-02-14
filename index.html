@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, imitial-scale=1.0" />
+        <title>Be my Valentine </title>
+        <style>
+            * { box-sizing:border-box;}
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Comic Sans MS', 'Poppins', system-ui, -apple-system, sans-serif;
+                background: #ffeff6;
+                overflow: hidden;
+            }
+
+            /* heart background */
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background:
+                  radial-gradient(circle at 10% 20%, rgba(225, 105, 180,.35) 0 18px, transparent 19px),
+                  radial-gradient(circle at 80% 30%, rgba(225, 105, 180,.35) 0 18px, transparent 19px),
+                  radial-gradient(circle at 30% 70%, rgba(225, 105, 180,.35) 0 18px, transparent 19px),
+                  radial-gradient(circle at 70% 80%, rgba(225, 105, 180,.35) 0 18px, transparent 19px);
+                background-size: 120px 120px;
+                animation: floatHearts 20s linear infinite;
+                z-index: -1;  
+            }
+            @keyframes floatHearts {
+                from { background-postion: 0 0, 0 0, 0 0, 0 0; }
+                to   { background-position: 600px 800px, -600px 500px, 400px -600px, -500px -800px; }
+            }
+
+            .card {
+                background: white;
+                border-radius: 24px;
+                padding: 28px 24px 32px;
+                max-width: 360px;
+                width: calc(100% - 32px);
+                text-align: center;
+                box-shadow: 0 20px 40px rgba(0,0,0,.15);
+                position: relative;
+            }
+
+            .cat {
+              width: 160px;
+              height: 160px;
+              border-radius: 50%;
+              object-fit: cover;
+              margin: 0 auto 12px;
+              border: 6px solid #ffd1e8;
+            }
+
+            h1{
+                margin: 8px 0 6px;
+                color: #ff4f9a;
+                font-size: 1.8rem;
+            }
+
+            p{
+                margin: 6px 0 18px;
+                color: #555;
+            }
+
+            .buttons{
+                display: flex;
+                gap: 14px;
+                justify-content: center;
+            }
+
+            button {
+                border: none;
+                padding: 12px 18px;
+                border-radius: 999px;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: transform .1s ease, box-shadow .1s ease, backgound .1s ease;
+                box-shadow: 0 8px 18px rgba(0,0,0,.15);
+            }
+
+            #yesBtn{
+                background: linear-gradient(135deg, #ff6fb1, #ff3f86);
+                color: white;
+            }
+
+            #noBtn{
+                background: #f1f1f1;
+                color: #333;
+            }
+             
+            button:active { transform: translateY(1px) scale(.98); }
+            
+            /* popup */
+            .popup {
+              position: fixed;
+              inset: 0;
+              background: rgba(0,0,0,.45);
+              display: none;
+              align-items: center;
+              justify-content: center;
+              z-index: 10;
+            }
+            
+            .popup-content {
+                background: white;
+                border-radius: 24px;
+                padding: 26px 24px 30px;
+                text-align: center;
+                max-width: 320px;
+                box-shadow: 0 25px 50px rgba(0,0,0,.25);
+                animation: pop .35s ease-out;
+            }
+
+            @keyframes pop {
+                from { transform: scale(.6); opacity: 0; }
+                to   { transform: scale(1); opacity: 1; }
+            }
+
+            .bouquet {
+                width: 180px;
+                margin-bottom: 14px;
+            }
+
+            .love-text {
+                font-size: 1.2rem;
+                color: #ff4f9a;
+                font-weight: bold;
+            }
+
+            .sure{
+                position: absolute;
+                color: #ff4f9a;
+                font-weight: bold;
+                animation: fadein .4s ease-out;
+            }
+
+            @keyframe fadein {
+                from { opacity: 0; transform: scale(.8); }
+                to { opacity: 1; transform: scale(1); }
+            }    
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <img class="cat" src="data:image/webp;base64,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"/>
+            <h1>Will you be my Valentine?</h1>
+            <p>You + me + snacks + cute moments = perfect date</p>
+
+            <div class="buttons">
+                <button id="yesBtn">YES</button>
+                <button id="noBtn">NO</button>
+            </div>
+        </div>
+
+        <div class="popup" id="popup">
+            <div class="popup-content">
+            <img class="bouquet" src="https://www.bing.com/th/id/OIP.c_62BjPJKVrHXCfg1ewmpQHaHa?w=188&h=188&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" alt="flower bouquet">
+            <div class="love-text">Yes i found the one</div>
+            </div>
+        </div>
+
+        <script>
+            const yesBtn =document.getElementById('yesBtn');
+            const noBtn =document.getElementById( 'noBtn');
+            const popup =document.getElementById( 'popup');
+
+            let sureinterval = null;
+
+            yesBtn.addEventListener('click', () => {
+              popup.style.display = 'flex' ;
+              clearInterval(sureinterval);
+              removeSures();  
+            });
+
+            noBtn.addEventListener('click', () => {
+                if (sureinterval) return;
+                sureinterval = setInterval(spawnsure, 600);
+                });
+
+                function spawnsure() {
+                    const s = document.createElement('div');
+                    s.className = 'sure';
+                    s.textcontent = 'are you sure?';
+
+                    const x = Math.random() * (window.innerwidth - 120);
+                    const y = Math.random() * (window.innerHeight - 40);
+
+                    s.style.left = x + 'px';
+                    s.style.top = y + 'px';
+
+                    document.body.appendChild(s);
+
+                    setTimeout( () => s.remove(), 2000);
+                }
+
+                function removeSures() {
+                    document.queryselectorAll( '.sure').forEach(el => el.remove());
+                }
+
+                popup.addEventListener('click', () => {
+                  popup.style.display = 'none';
+                });
+        </script>
+    </body>
+</html>
